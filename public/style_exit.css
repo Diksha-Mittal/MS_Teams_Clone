@@ -1,0 +1,40 @@
+.content {
+    margin-top: 100px;
+}
+
+.message {
+    font-size: 38px;
+}
+
+.space {
+    padding: 0px 8px;
+}
+
+.vspace {
+    margin-top: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* #chat-room-button {
+    margin-top: 8px;
+    width: 355px;
+} */
+
+
+/* .feedback {
+    background-color: #fff;
+    color: blue;
+} */
+
+
+/* #submit {
+    color: #303b96;
+}
+
+#submit:hover {
+    background-color: #f5f9fc;
+} */
