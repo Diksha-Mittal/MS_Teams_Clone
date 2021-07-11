@@ -259,50 +259,50 @@ function outputUsers(users) {
     `;
 }
 
-//screenShare
-const screenshare = () =>{
-    navigator.mediaDevices.getDisplayMedia({
-        video:{
-            cursor:'always'
-        },
-        audio:{
-            echoCancellation:true,
-            noiseSupprission:true
-        }
-    }).then(stream =>{
-        console.log("sharing started");
-        let videoTrack = stream.getVideoTracks()[0];
-        console.log(videoTrack);
-        videoTrack.onended = function(){
-            stopScreenShare();
-        }
+// //screenShare
+// const screenshare = () =>{
+//     navigator.mediaDevices.getDisplayMedia({
+//         video:{
+//             cursor:'always'
+//         },
+//         audio:{
+//             echoCancellation:true,
+//             noiseSupprission:true
+//         }
+//     }).then(stream =>{
+//         console.log("sharing started");
+//         let videoTrack = stream.getVideoTracks()[0];
+//         console.log(videoTrack);
+//         videoTrack.onended = function(){
+//             stopScreenShare();
+//         }
 
-    //     let enabled = myVideoStream.getVideoTracks()[0].enabled;
-    // if (enabled) {
-    //     myVideoStream.getVideoTracks()[0].enabled = false;
-    //     setPlayVideo()
-    // } else {
-    //     setStopVideo()
-    //     myVideoStream.getVideoTracks()[0].enabled = true;
-    // }
+//     //     let enabled = myVideoStream.getVideoTracks()[0].enabled;
+//     // if (enabled) {
+//     //     myVideoStream.getVideoTracks()[0].enabled = false;
+//     //     setPlayVideo()
+//     // } else {
+//     //     setStopVideo()
+//     //     myVideoStream.getVideoTracks()[0].enabled = true;
+//     // }
 
-        myVideoStream=videoTrack;
-        // for (let x=0;x<peers.length;x++){
-        //     let sender = peers[x].getSenders().find(function(s){  //replace video track 
-        //         return s.track.kind == videoTrack.kind;
-        //     })
+//         myVideoStream=videoTrack;
+//         // for (let x=0;x<peers.length;x++){
+//         //     let sender = peers[x].getSenders().find(function(s){  //replace video track 
+//         //         return s.track.kind == videoTrack.kind;
+//         //     })
         
-        //     sender.replaceTrack(videoTrack);
-        // }
-    })    
-}
+//         //     sender.replaceTrack(videoTrack);
+//         // }
+//     })    
+// }
     
-function stopScreenShare(){
-    let videoTrack = myVideoStream.getVideoTracks()[0];
-    for (let x=0;x<users.length;x++){
-        let sender = users[x].getSenders().find(function(s){
-            return s.track.kind == videoTrack.kind;
-        })
-        sender.replaceTrack(videoTrack);
-    }
-}
+// function stopScreenShare(){
+//     let videoTrack = myVideoStream.getVideoTracks()[0];
+//     for (let x=0;x<users.length;x++){
+//         let sender = users[x].getSenders().find(function(s){
+//             return s.track.kind == videoTrack.kind;
+//         })
+//         sender.replaceTrack(videoTrack);
+//     }
+// }
