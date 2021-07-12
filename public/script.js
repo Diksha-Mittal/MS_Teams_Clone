@@ -75,7 +75,23 @@ chatForm.addEventListener('submit', e => {
 
 //output message when recieved from server
 socket.on('message', message => {
-    $(".messages").append(`
+    console.log(message.username);
+    if (message.username == 'Teams BOT') {
+        console.log('here');
+        $(".messages").append(`
+        <li class="botGen message">
+            <div class="line1">
+                    ${message.username}
+                <span>
+                    ${message.time}
+                </span>
+            </div>
+            
+            ${message.text}
+        </li>`);
+    } else {
+        console.log('there');
+        $(".messages").append(`
         <li class="message">
             <div class="line1">
                     ${message.username}
@@ -86,10 +102,12 @@ socket.on('message', message => {
             
             ${message.text}
         </li>`);
+    }
     scrollDownToBottom();
 })
 
 
+// user disconnected
 socket.on('user-disconnected', userId => {
     if (peers[userId]) peers[userId].close();
 })
@@ -103,7 +121,6 @@ peer.on('open', id => {
 
 //to get the participant list
 socket.on('roomUsersVid', ({ users }) => {
-    console.log(users);
     outputUsers(users);
 })
 

@@ -33,13 +33,21 @@ app.set('view engine', 'ejs');
 //so that we could use stylesheet and everything
 app.use(express.static('public'));
 
-//giving unique id when the port listens and redirecting it
+//rendering entry page
 app.get('/', function(req, res) {
-    res.render('entry');
-    // res.render('chat');
-    // res.redirect(`/${uuidv4()}`);
+    res.render('entry', {
+        status: 200
+    });
 })
 
+//invalid room code redirection
+app.get('/invalid_roomcode', function(req, res) {
+    res.render('entry', {
+        status: 400
+    });
+})
+
+//entering the chat room
 app.post('/chat', urlencodedParser, function(req, res) {
     if (validator.isUUID(req.body.roomCode) == true) {
         //checking if the room exists in chat database
@@ -56,13 +64,12 @@ app.post('/chat', urlencodedParser, function(req, res) {
             roomId: req.body.roomCode,
             username: req.body.userName
         });
-        // res.redirect(`/${req.body.roomCode}`);
     } else {
-        // alert('Invalid room code!')
-        res.status(400).redirect('/');
+        res.redirect('/invalid_roomcode');
     }
 })
 
+//making new chat room
 app.post('/new_chat', urlencodedParser, async function(req, res) {
     try {
         const newRoom = uuidv4();
@@ -78,67 +85,30 @@ app.post('/new_chat', urlencodedParser, async function(req, res) {
     } catch (error) {
         res.status(400).send(error);
     }
-
-
-    // const newRoom = uuidv4();
-    // const room_to_be_made = new Chat({
-    //     roomId: newRoom
-    // })
-    // const room_made = await room_to_be_made.save();
-
-    // res.render('chat', {
-    //     roomId: newRoom,
-    //     username: req.body.userName
-    // });
-    // res.redirect(`/${uuidv4()}`);
 })
 
+//for entering video-meeting
 app.post('/video-call', urlencodedParser, function(req, res) {
     if (validator.isUUID(req.body.roomCode) == true) {
         res.render('room', {
             roomId: req.body.roomCode,
             username: req.body.userName
         });
-
-        // res.redirect(`/${req.body.roomCode}`, {
-        //     roomId: req.body.roomCode,
-        //     username: req.body.userName
-        // });
     } else {
-        // alert('Invalid room code!')
         res.status(400).redirect('/');
     }
 })
 
-// app.get('/:room', function(req, res) {
-//     if (validator.isUUID(req.params.room) == true) {
-//         res.render('room', {
-//             roomId: req.params.room,
-//             username: req.body.userName
-//         });
-//     } else {
-//         // alert('Invalid room code!')
-//         res.status(400).redirect('/');
-//     }
-//     // res.render('room', { roomId: req.params.room });
-// })
-
-// app.post('/new', urlencodedParser, function(req, res) {
-//     res.redirect(`/${uuidv4()}`);
-// })
-
+//submit feedback post request
 app.post('/submit_feedback', urlencodedParser, async function(req, res) {
-    // console.log("here about to enter to save feedback");
     try {
         if ((req.body.user_review) !== "") {
             const feedback_to_be_saved = new Feedback({
                 review: req.body.user_review
             })
 
-            // console.log("here about to save feedback");
-
+            //saving feedback to database
             const feedback_saved = await feedback_to_be_saved.save();
-            // console.log("here after saving feedback");
         }
         res.render('thanks_after_review');
     } catch (error) {
@@ -146,40 +116,35 @@ app.post('/submit_feedback', urlencodedParser, async function(req, res) {
     }
 })
 
+
+
+//new meeting room page
 app.get('/entry_new_room', function(req, res) {
     res.render('entry_new_room');
 })
 
+//exit page
 app.get('/exit', function(req, res) {
     res.render('exit');
 })
 
+//review page
 app.get('/review', function(req, res) {
     res.render('review');
 })
 
+//review submission thanks page
 app.get('/thanks_after_review', function(req, res) {
     res.render('thanks_after_review');
 })
 
-// //rendering the room i.e. basically the screen
-// app.get('/:room', function(req, res) {
-//     if (validator.isUUID(req.params.room) == true) {
-//         res.render('room', {
-//             roomId: req.params.room,
-//             username: req.body.userName
-//         });
-//     } else {
-//         // alert('Invalid room code!')
-//         res.status(400).redirect('/');
-//     }
-//     // res.render('room', { roomId: req.params.room });
-// })
+
 
 const botName = 'Teams BOT';
 
 //creating conn on Server
 io.on('connection', socket => {
+    // join chat room
     socket.on('join-chat-room', async({ roomId, username }) => {
         const user = userJoin(socket.id, username, roomId);
         socket.join(user.roomId);
@@ -192,25 +157,8 @@ io.on('connection', socket => {
                 for (var i = 0; i < chat[0].msgs.length; i++) {
                     socket.emit('message', chat[0].msgs[i]);
                 }
-                //emitting welcome message
-                socket.emit('message', formatMessage(botName, 'Welcome to the chat room'));
             }
         });
-        // Chat.find({ roomId: user.roomId }, function(err, chat) {
-        //     if (err) {
-        //         console.log(err);
-        //     } else {
-        //         for (var i = 0; i < chat.msgs.length; i++) {
-        //             console.log(chat.msgs[i]);
-        //         }
-        //     }
-        // });
-        // while (await searchCursor.hasNext()) {
-        //     console.log(await searchCursor.next);
-        // }
-
-        // //emitting welcome message
-        // socket.emit('message', formatMessage(botName, 'Welcome to the chat room'));
 
         //save joining to database
         const message_to_be_saved = formatMessage(botName, `${user.username} has joined the chat`);
@@ -223,13 +171,14 @@ io.on('connection', socket => {
         })
 
         //broadcast when user connects
-        socket.broadcast.to(user.roomId).emit('message', message_to_be_saved);
+        io.to(user.roomId).emit('message', message_to_be_saved);
 
         //send users and room info
         io.to(user.roomId).emit('roomUsers', {
             roomId: user.roomId,
             users: getRoomUsers(user.roomId)
         });
+
 
         //message transport
         socket.on('chatMessage', async msg => {
@@ -247,6 +196,7 @@ io.on('connection', socket => {
 
             io.to(user.roomId).emit('message', message_to_be_saved);
         })
+
 
         //disconnecting
         socket.on('disconnect', async() => {
@@ -273,6 +223,9 @@ io.on('connection', socket => {
         })
     });
 
+
+
+    // join meeting room
     socket.on('join-room', async(roomId, userId, username) => {
         const user = userJoin(socket.id, username, roomId);
         const uservid = userJoinvid(userId, username, roomId);
@@ -286,13 +239,10 @@ io.on('connection', socket => {
                 for (var i = 0; i < chat[0].msgs.length; i++) {
                     socket.emit('message', chat[0].msgs[i]);
                 }
-                //emitting welcome message
-                socket.emit('message', formatMessage(botName, 'Welcome to the meeting room'));
             }
         });
 
         socket.broadcast.to(roomId).emit('user-connected', userId);
-        // socket.emit('message', formatMessage(botName, 'Welcome to the meeting room'));
 
         //save joining to database
         const message_to_be_saved = formatMessage(botName, `${user.username} has joined the meeting`);
@@ -305,7 +255,7 @@ io.on('connection', socket => {
         })
 
         //broadcast when user connects
-        socket.broadcast.to(user.roomId).emit('message', message_to_be_saved);
+        io.to(user.roomId).emit('message', message_to_be_saved);
 
         //send users and room info
         io.to(user.roomId).emit('roomUsersVid', {
@@ -317,6 +267,7 @@ io.on('connection', socket => {
             roomId: user.roomId,
             users: getRoomUsers(user.roomId)
         });
+
 
         //message reciever
         socket.on('chatMessage', async msg => {
@@ -334,6 +285,7 @@ io.on('connection', socket => {
 
             io.to(user.roomId).emit('message', message_to_be_saved);
         })
+
 
         //disconnecting
         socket.on('disconnect', async() => {
@@ -358,15 +310,13 @@ io.on('connection', socket => {
                 });
 
                 //send users and room info
-                io.to(user.roomId).emit('roomUsers', {
-                    roomId: user.roomId,
-                    users: getRoomUsers(user.roomId)
+                io.to(user.roomId).emit('roomUsersVid', {
+                    users: getRoomUsersvid(user.roomId)
                 });
 
                 socket.broadcast.to(roomId).emit('user-disconnected', userId);
                 const userleavevid = userLeavevid(userId);
             }
-            socket.broadcast.to(roomId).emit('user-disconnected', userId);
 
             //send users and room info
             io.to(user.roomId).emit('roomUsersVid', {

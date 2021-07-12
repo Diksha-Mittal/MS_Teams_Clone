@@ -37,10 +37,17 @@ chatForm.addEventListener('submit', e => {
     e.target.elements.msg.focus();
 })
 
+const botName = 'Teams BOT';
+
 //function to output message
 function outputMessage(message) {
     const div = document.createElement('div');
     div.classList.add('message');
+    //to handle bot messages differently
+    if (message.username === botName) {
+        div.classList.add('botGen');
+    }
+
     div.innerHTML = `
         <p class="meta">
             ${message.username}

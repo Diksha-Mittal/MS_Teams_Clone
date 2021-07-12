@@ -1,8 +1,6 @@
-/* @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap'); */
-
 :root {
     --dark-color-a: #15109d;
-    --dark-color-b: #1812b3;
+    --dark-color-b: #1712b1;
     --light-color: #e6e9ff;
     --success-color: #5cb85c;
     --error-color: #d9534f;
@@ -15,10 +13,8 @@
 }
 
 body {
-    /* font-family: 'Roboto', sans-serif; */
     font-size: 16px;
     background: #e2e0e1;
-    /* margin: 20px; */
 }
 
 ul {
@@ -27,6 +23,10 @@ ul {
 
 a {
     text-decoration: none;
+}
+
+p {
+    margin-bottom: 0.3rem;
 }
 
 .btn {
@@ -42,15 +42,12 @@ a {
     max-width: 100%;
     max-height: 100%;
     background: #fff;
-    /* margin: 0px auto; */
     overflow: hidden;
 }
 
 .chat-header {
     background: var(--dark-color-a);
     color: #fff;
-    /* border-top-left-radius: 5px;
-    border-top-right-radius: 5px; */
     padding: 15px;
     display: flex;
     align-items: center;
@@ -122,6 +119,18 @@ a {
     color: #777;
 }
 
+.chat-messages .botGen {
+    background-color: #fff;
+    margin-bottom: 2px;
+    padding: 2px;
+    color: #777;
+}
+
+.chat-messages .botGen .meta {
+    margin-bottom: 1px;
+    color: #777;
+}
+
 .chat-form-container {
     padding: 20px 30px;
     background-color: var(--dark-color-a);
@@ -149,12 +158,12 @@ a {
 }
 
 #leave-btn {
-    background-color: #ff0000;
+    background-color: #df1818;
     color: #fff;
 }
 
 #leave-btn:hover {
-    background-color: #df1818;
+    background-color: #E34133;
 }
 
 #msg {

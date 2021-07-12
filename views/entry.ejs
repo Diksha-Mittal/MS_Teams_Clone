@@ -5,6 +5,12 @@
     <meta charset="utf-8">
     <title>Join Meeting</title>
     <link rel="stylesheet" href="style_entry.css">
+    <script defer>
+        const status = "<%=status%>"
+        if (status == 400) {
+            alert("Invalid Room Code!");
+        }
+    </script>
 </head>
 
 <body>
