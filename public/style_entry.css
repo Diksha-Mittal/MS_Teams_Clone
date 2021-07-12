@@ -21,7 +21,7 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 18px;
-    background: url(https://wallpapercave.com/wp/wp2067919.jpg);
+    background: url(https://images.unsplash.com/photo-1510851896000-498520af2236?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8bmlnaHQlMjB3b3JrfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80);
     background-size: cover;
 }
 
@@ -32,7 +32,7 @@ body {
     padding: 2rem;
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
     border-radius: var(--border-radius);
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.527);
 }
 
 .container,
