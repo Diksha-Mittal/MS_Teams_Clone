@@ -1,6 +1,6 @@
 const users = [];
 
-//join user to the chat
+//join user to the meet
 function userJoinvid(id, username, roomId) {
     const user = { id, username, roomId };
     users.push(user);
@@ -12,7 +12,7 @@ function getCurrentUservid(id) {
     return users.find(user => user.id === id);
 }
 
-//user leaves chat
+//user leaves meet
 function userLeavevid(id) {
     const index = users.findIndex(user => user.id === id);
 
@@ -21,7 +21,7 @@ function userLeavevid(id) {
     }
 }
 
-//get room users
+//get meet room users
 function getRoomUsersvid(roomId) {
     return users.filter(user => user.roomId === roomId);
 }

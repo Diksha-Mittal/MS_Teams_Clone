@@ -1,8 +1,8 @@
 /* @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap'); */
 
 :root {
-    --dark-color-a: #0c6cf9;
-    --dark-color-b: #1f77fc;
+    --dark-color-a: #15109d;
+    --dark-color-b: #1812b3;
     --light-color: #e6e9ff;
     --success-color: #5cb85c;
     --error-color: #d9534f;
@@ -66,14 +66,16 @@ a {
     background: var(--dark-color-b);
     color: #fff;
     padding: 20px 20px 60px;
-    overflow-y: scroll;
+    height: 76vh;
+    /* overflow-y: scroll; */
 }
 
 .chat-sidebar p {
     font-size: 20px;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.15);
     padding: 10px;
     margin-bottom: 20px;
+    border-radius: 2px;
 }
 
 .chat-sidebar h3 {
@@ -82,6 +84,11 @@ a {
 
 .chat-sidebar ul li {
     padding: 10px 0;
+}
+
+.chat-sidebar .user-list {
+    height: 60%;
+    overflow-y: auto;
 }
 
 .chat-messages {
@@ -133,14 +140,33 @@ a {
 
 #enter-btn {
     margin-right: 5px;
+    background-color: #fff;
+    color: #000;
+}
+
+#enter-btn:hover {
+    background-color: #e9e9e9;
 }
 
 #leave-btn {
-    color: red;
+    background-color: #ff0000;
+    color: #fff;
 }
 
 #leave-btn:hover {
-    color: #000;
+    background-color: #df1818;
+}
+
+#msg {
+    border-radius: .35rem;
+}
+
+#send-btn {
+    color: black;
+}
+
+#send-btn:hover {
+    color: var(--dark-color-b);
 }
 
 .hidden-field {

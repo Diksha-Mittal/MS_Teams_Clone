@@ -11,12 +11,3 @@ ratingsEl.forEach((el) => {
         el.classList.add("active");
     });
 });
-
-// sendBtn.addEventListener("click", () => {
-//     panel.innerHTML = `
-// 		<i class="fas fa-heart"></i>
-// 		<strong>Thank you!</strong>
-// 		<p>We'll use your feedback to improve our application service.</p>
-// 		<a href="http://localhost:3030/exit"><button class="btn">Done</button></a>
-// 	`;
-// });

@@ -109,11 +109,13 @@ video {
 
 #chat-btn {
     color: #eb534b;
+    /* border-color: #eb534b; */
 }
 
 #chat-btn:click {
     background-color: #1c1e20;
     border-radius: 5px;
+    border-color: #1c1e20;
 }
 
 a {
@@ -186,10 +188,20 @@ a {
     padding-left: 5px;
 }
 
+.messages .message {
+    padding: 6px;
+    font-size: 17px;
+}
+
 .messages .message .line1 {
     display: flex;
     justify-content: space-between;
     color: #0c6cf9;
+    font-size: 14px;
+}
+
+.messages .message .line1 span {
+    color: #999999;
 }
 
 .rule {
@@ -211,4 +223,14 @@ a {
 
 #send-btn {
     color: #fff;
+}
+
+
+/* #send-btn:click {
+    box-shadow: #1c1e20;
+    border: none;
+} */
+
+button#chat-btn {
+    box-shadow: none;
 }
