@@ -1,4 +1,0 @@
-server.js me jb nya user enter kre
-mera:
-socket.to(roomId).emit('user-connected');
-video vale ka: socket.to(roomId).broadcast.emit('user-connected');

@@ -5,68 +5,37 @@
     <meta charset="utf-8">
     <title>Join Meeting</title>
     <link rel="stylesheet" href="style_entry.css">
+    <script defer>
+        const status = "<%=status%>"
+        if (status == 400) {
+            alert("Invalid Room Code!");
+        }
+    </script>
 </head>
 
 <body>
     <div class="container">
+        <!-- form -->
         <form class="form" id="login" method="post" action="/chat">
             <h1 class="form__title">Join Meeting</h1>
-            <!-- <div class="form__message form__message--error"></div> -->
+
             <div class="form__input-group">
                 <input type="text" class="form__input" id="roomCodeInput" name="roomCode" autofocus placeholder="Enter meeting Id" required>
-                <!-- <div class="form__input-error-message"></div> -->
             </div>
+
             <div class="form__input-group">
                 <input type="text" class="form__input" name="userName" autofocus placeholder="Enter your name" required>
-                <!-- <div class="form__input-error-message"></div> -->
             </div>
+
             <button class="form__button" type="submit">Join</button>
+
             <p class="form__text">
                 <a href="#" class="form__link">Sign in with your Account</a>
             </p>
+
             <p class="form__text">
                 <a class="form__link" href="/entry_new_room" id="linkCreateAccount">Create New Meeting</a>
             </p>
         </form>
-        <!-- <form class="form form--hidden" id="createAccount">
-            <h1 class="form__title">Create Account</h1>
-            <div class="form__message form__message--error"></div>
-            <div class="form__input-group">
-                <input type="text" id="signupUsername" class="form__input" autofocus placeholder="Username">
-                <div class="form__input-error-message"></div>
-            </div>
-            <div class="form__input-group">
-                <input type="text" class="form__input" autofocus placeholder="Email Address">
-                <div class="form__input-error-message"></div>
-            </div>
-            <div class="form__input-group">
-                <input type="password" class="form__input" autofocus placeholder="Password">
-                <div class="form__input-error-message"></div>
-            </div>
-            <div class="form__input-group">
-                <input type="password" class="form__input" autofocus placeholder="Confirm password">
-                <div class="form__input-error-message"></div>
-            </div>
-            <button class="form__button" type="submit">Continue</button>
-            <p class="form__text">
-                <a class="form__link" href="./" id="linkLogin">Already have an account? Sign in</a>
-            </p>
-        </form> -->
     </div>
-
-    <!-- <script type="text/javascript">
-        console.log(status);
-
-        var validator = require('validator');
-
-        function checkRoomCode() {
-            var roomCode = document.getElementById("roomCodeInput").value;
-            if (validator.isUUID(roomCode) == true) {
-                return true;
-            } else {
-                alert("Invalid room code!");
-                return false;
-            }
-        }
-    </script> -->
 </body>

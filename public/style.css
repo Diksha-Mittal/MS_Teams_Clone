@@ -26,12 +26,6 @@ body {
     width: 500px;
 }
 
-
-/* #video-grid::-webkit-scrollbar {
-    width: 10px;
-    color: #807391;
-} */
-
 #video-grid::-webkit-scrollbar {
     width: 0;
 }
@@ -44,6 +38,8 @@ video {
     object-fit: cover;
     margin-left: 2px;
     margin-right: 2px;
+    border: 1px solid #343434;
+    border-radius: 4px;
 }
 
 .main {
@@ -70,7 +66,6 @@ video {
     background-color: #000;
     display: flex;
     justify-content: center;
-    /* align-items: center; */
 }
 
 
@@ -114,6 +109,7 @@ video {
 #chat-btn:click {
     background-color: #1c1e20;
     border-radius: 5px;
+    border-color: #1c1e20;
 }
 
 a {
@@ -135,12 +131,6 @@ a {
     background-color: #cac6c7;
     overflow-y: auto;
 }
-
-
-/* #drop:hover {
-    background-color: #343434;
-    border: none;
-} */
 
 
 /* right part */
@@ -186,10 +176,30 @@ a {
     padding-left: 5px;
 }
 
+.messages .message {
+    padding: 6px;
+    font-size: 17px;
+}
+
 .messages .message .line1 {
     display: flex;
     justify-content: space-between;
     color: #0c6cf9;
+    font-size: 14px;
+}
+
+.messages .message .line1 span {
+    color: #999999;
+}
+
+.messages .botGen {
+    color: #999999;
+    font-size: 13px;
+}
+
+.messages .botGen .line1 {
+    color: #999999;
+    font-size: 13px;
 }
 
 .rule {
@@ -211,4 +221,12 @@ a {
 
 #send-btn {
     color: #fff;
+}
+
+button#chat-btn {
+    box-shadow: none;
+}
+
+button#drop {
+    box-shadow: none;
 }

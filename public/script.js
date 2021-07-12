@@ -1,22 +1,18 @@
-//js for front end will be here
+//js for video call front end will be here
 
 //setting socket.io
 const socket = io('/');
 
-//video grid where i have to show the video
 const videoGrid = document.getElementById('video-grid');
 const speakerVideo = document.getElementById('speaker-video');
 const chatForm = document.getElementById('chat-form');
 const userList = document.getElementById('users');
-// const { username } = Qs.parse(location.search, {
-//     ignoreQueryPrefix: true
-// });
 
 //element where we can play the video stream in
 const myVideo = document.createElement('video');
 myVideo.muted = true;
 
-const peers = {};
+const peers = {}; //to save the peer connections
 var myId;
 var safeCall;
 
@@ -34,7 +30,6 @@ navigator.mediaDevices.getUserMedia({
 
     peer.on('connection', function(conn) {
         conn.on('data', function(data) {
-            console.log(data);
             peers[data] = safeCall;
         });
     });
@@ -47,16 +42,11 @@ navigator.mediaDevices.getUserMedia({
             addVideoStream(video, userVideoStream)
         })
 
-        // peers[userId] = call;
         call.on('close', () => {
             video.remove();
         })
 
         safeCall = call;
-        // console.log("ab ki baat")
-        // console.log(recentId);
-        // peers[recentId] = call;
-        // console.log(peers[recentId]);
     })
 
     //to listen that user connected
@@ -66,18 +56,9 @@ navigator.mediaDevices.getUserMedia({
 
 })
 
-//message part
-// // input value
-// let text = $("input");
-// // when press enter send message
-// $('html').keydown(function(e) {
-//     if (e.which == 13 && text.val().length !== 0) {
-//         // console.log(text.val());
-//         socket.emit('chatMessage', text.val());
-//         text.val('')
-//     }
-// });
 
+//message part
+//sending message
 chatForm.addEventListener('submit', e => {
     e.preventDefault();
 
@@ -92,14 +73,15 @@ chatForm.addEventListener('submit', e => {
     e.target.elements.msg.focus();
 })
 
+//output message when recieved from server
 socket.on('message', message => {
-    console.log('this is from server', message);
-    $("ul").append(`
-        <li class="message">
+    console.log(message.username);
+    if (message.username == 'Teams BOT') {
+        console.log('here');
+        $(".messages").append(`
+        <li class="botGen message">
             <div class="line1">
-                <b>
                     ${message.username}
-                </b>
                 <span>
                     ${message.time}
                 </span>
@@ -107,11 +89,26 @@ socket.on('message', message => {
             
             ${message.text}
         </li>`);
+    } else {
+        console.log('there');
+        $(".messages").append(`
+        <li class="message">
+            <div class="line1">
+                    ${message.username}
+                <span>
+                    ${message.time}
+                </span>
+            </div>
+            
+            ${message.text}
+        </li>`);
+    }
     scrollDownToBottom();
 })
 
+
+// user disconnected
 socket.on('user-disconnected', userId => {
-    // console.log(userId);
     if (peers[userId]) peers[userId].close();
 })
 
@@ -121,13 +118,15 @@ peer.on('open', id => {
     socket.emit('join-room', ROOM_ID, id, username);
 })
 
+
+//to get the participant list
 socket.on('roomUsersVid', ({ users }) => {
     outputUsers(users);
 })
 
+
 //adding video streams
 const connectToNewUser = (userId, stream) => {
-
     var conn = peer.connect(userId);
     // on open will be launch when you successfully connect to PeerServer
     conn.on('open', function() {
@@ -149,6 +148,7 @@ const connectToNewUser = (userId, stream) => {
 
 }
 
+
 //adding video stream
 const addVideoStream = (video, stream) => {
     video.srcObject = stream;
@@ -159,6 +159,8 @@ const addVideoStream = (video, stream) => {
     videoGrid.append(video);
 }
 
+
+//to add video to speaker grid
 const addSpeakerStream = (video, stream) => {
     video.srcObject = stream;
     video.addEventListener('loadedmetadata', () => {
@@ -168,10 +170,13 @@ const addSpeakerStream = (video, stream) => {
     speakerVideo.append(video);
 }
 
+
+//scroll to bottom function
 const scrollDownToBottom = () => {
     let d = $('.main-chat-window');
     d.scrollTop(d.prop("scrollHeight"));
 }
+
 
 //mute Unmute
 const muteUnmute = () => {
@@ -201,6 +206,7 @@ const setUnmuteButton = () => {
     document.querySelector('.main-mute-button').innerHTML = html;
 }
 
+
 //stop play video
 const playStop = () => {
     let enabled = myVideoStream.getVideoTracks()[0].enabled;
@@ -229,16 +235,15 @@ const setPlayVideo = () => {
     document.querySelector('.main-video-button').innerHTML = html;
 }
 
+
 //display room code
 const showInviteLink = () => {
-    // alert(`Copy and share the below room link to invite:
-    // ${ROOM_ID}`)
     /* Get the text field */
     var copyText = document.getElementById("room-code");
 
     /* Select the text field */
     copyText.select();
-    // copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    copyText.setSelectionRange(0, 99999); /* For mobile devices */
 
     /* Copy the text inside the text field */
     document.execCommand("copy");
@@ -247,10 +252,12 @@ const showInviteLink = () => {
     alert("Copy and share the following room code to invite : " + copyText.value);
 }
 
+
 //focus on chat
 const focusOnChat = () => {
     msg.focus();
 }
+
 
 //maintaining participant list
 function outputUsers(users) {
@@ -258,51 +265,3 @@ function outputUsers(users) {
         ${users.map(user =>`<li>${user.username}</li>`).join('')}
     `;
 }
-
-// //screenShare
-// const screenshare = () =>{
-//     navigator.mediaDevices.getDisplayMedia({
-//         video:{
-//             cursor:'always'
-//         },
-//         audio:{
-//             echoCancellation:true,
-//             noiseSupprission:true
-//         }
-//     }).then(stream =>{
-//         console.log("sharing started");
-//         let videoTrack = stream.getVideoTracks()[0];
-//         console.log(videoTrack);
-//         videoTrack.onended = function(){
-//             stopScreenShare();
-//         }
-
-//     //     let enabled = myVideoStream.getVideoTracks()[0].enabled;
-//     // if (enabled) {
-//     //     myVideoStream.getVideoTracks()[0].enabled = false;
-//     //     setPlayVideo()
-//     // } else {
-//     //     setStopVideo()
-//     //     myVideoStream.getVideoTracks()[0].enabled = true;
-//     // }
-
-//         myVideoStream=videoTrack;
-//         // for (let x=0;x<peers.length;x++){
-//         //     let sender = peers[x].getSenders().find(function(s){  //replace video track 
-//         //         return s.track.kind == videoTrack.kind;
-//         //     })
-        
-//         //     sender.replaceTrack(videoTrack);
-//         // }
-//     })    
-// }
-    
-// function stopScreenShare(){
-//     let videoTrack = myVideoStream.getVideoTracks()[0];
-//     for (let x=0;x<users.length;x++){
-//         let sender = users[x].getSenders().find(function(s){
-//             return s.track.kind == videoTrack.kind;
-//         })
-//         sender.replaceTrack(videoTrack);
-//     }
-// }

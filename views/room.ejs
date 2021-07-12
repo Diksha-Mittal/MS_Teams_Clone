@@ -20,35 +20,44 @@
 </head>
 
 <body>
-
-    <!-- here our main clone lives -->
+    <!-- here our meeting clone lives -->
     <div class="main">
+        <!-- left part -->
         <div class="main-left">
+            <!-- small videos -->
             <div class="main-videos">
                 <div id="video-grid"></div>
             </div>
 
+            <!-- speaker video -->
             <center>
                 <div id="speaker-video"></div>
             </center>
 
+            <!-- control panel -->
             <div class="main-controls">
+                <!-- block 1 -->
                 <div class="main-controls-block">
+                    <!-- mute button -->
                     <div onclick="muteUnmute()" class="main-controls-button main-mute-button">
                         <i class="fas fa-microphone"></i>
                         <span>Mute</span>
                     </div>
+                    <!-- video on off -->
                     <div onclick="playStop()" class="main-controls-button main-video-button">
                         <i class="fas fa-video"></i>
                         <span>Stop Video</span>
                     </div>
                 </div>
 
+                <!-- block 2 -->
                 <div class="main-controls-block">
+                    <!-- invite button -->
                     <div onclick="showInviteLink()" class="main-controls-button">
                         <i class="fas fa-share-alt"></i>
                         <span>Invite</span>
                     </div>
+                    <!-- participant dropdown -->
                     <div class="main-controls-button">
                         <div class="btn-group dropup">
                             <button type="button" class="btn btn-secondary dropdown-toggle" id="drop" data-bs-toggle="dropdown" aria-expanded="false">
@@ -59,28 +68,21 @@
                                 <!-- Dropdown menu links -->
                             </ul>
                         </div>
-                        <!-- <i class="fas fa-user-friends"></i>
-                        <span>Participants</span> -->
                     </div>
+                    <!-- chat button -->
                     <div onclick="focusOnChat()" class="main-controls-button">
                         <i class="fas fa-comment-alt"></i>
                         <span>Chat</span>
                     </div>
+                    <!-- share screen button -->
                     <div class="main-controls-button">
                         <i class="fas fa-arrow-circle-up"></i>
                         <span>Share Screen</span>
                     </div>
-                    <div class="main-controls-button">
-                        <i class="fas fa-circle"></i>
-                        <span>Record</span>
-                    </div>
-                    <!-- <div class="main-controls-button">
-                        <i class="fas fa-smile"></i>
-                        <span>Reactions</span>
-                    </div> -->
                 </div>
 
-
+                <!-- block 3 -->
+                <!-- leave meeting -->
                 <div class="main-controls-block">
                     <div class="main-controls-button">
                         <form id="hidden-form" method="post" action="/chat">
@@ -88,12 +90,13 @@
                             <input type="text" class="hidden-field" name="userName" autofocus placeholder="Enter your name" value="<%= username %>">
                             <button class="btn" class="leave-meeting" id="chat-btn" type="submit">Leave Meeting</button>
                         </form>
-                        <!-- <a href="/exit"><span class="leave-meeting">Leave Meeting</span></a> -->
                     </div>
                 </div>
             </div>
         </div>
 
+
+        <!-- right part -->
         <div class="main-right">
             <div class="main-header">
                 <h3>Chat</h3>
@@ -101,13 +104,15 @@
 
             <hr class="rule">
 
+            <!-- message block -->
             <div class="main-chat-window">
-                <ul class="messages">
+                <ul class="messages" id="messages_ul">
 
 
                 </ul>
             </div>
 
+            <!-- message input box -->
             <div class="main-message-container">
                 <div class="chat-form-container">
                     <form id="chat-form">
@@ -115,7 +120,6 @@
                         <button class="btn" id="send-btn"><i class="fas fa-paper-plane"></i></button>
                     </form>
                 </div>
-                <!-- <input id="chat-message" type="text" placeholder="Send a message to everyone"> -->
             </div>
         </div>
 
